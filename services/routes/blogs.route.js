@@ -3,7 +3,7 @@ const Blog = require("../models/blog.model.js");
 
 const { reset } = require("nodemon");
 const { trusted } = require("mongoose");
-const uploadFile = require("../middleware/uploadFile.js");
+const { uploadCover } = require("../middleware/uploadFile.js");
 
 const blogsRoute = express.Router();
 
@@ -57,7 +57,7 @@ blogsRoute.delete("/:id", async (req, res) => {
 });
 
 
-blogsRoute.patch("/:id/cover", uploadFile, async (req, res, next ) => {
+blogsRoute.patch("/:id/cover", uploadCover, async (req, res, next ) => {
 
    try {
 
@@ -72,6 +72,22 @@ blogsRoute.patch("/:id/cover", uploadFile, async (req, res, next ) => {
     res.send(err)
    }
    
+})
+
+blogsRoute.patch("/:id/author", async (req, res, next) => {
+
+  try {
+
+    let updatedAuthor = await Blog.findByIdAndUpdate(
+      req.params.id, 
+      { author: req.body.author }, 
+      { new: true }
+    )
+
+    res.send(updatedAuthor)
+  } catch(err) {
+    res.send(err)
+  }
 })
 
 module.exports = blogsRoute;

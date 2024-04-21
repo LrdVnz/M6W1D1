@@ -1,6 +1,6 @@
 const express = require("express");
 const Author = require("../models/author.model.js");
-
+const { uploadAvatar } = require("../middleware/uploadFile.js");
 const data = require("../../src/data/posts.json");
 const { reset } = require("nodemon");
 
@@ -67,6 +67,20 @@ authorsRoute.delete("/:id", async (req, res) => {
     const result = await Author.deleteOne({ _id: id });
 
     res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+authorsRoute.patch("/:id/avatar", uploadAvatar, async (req, res, next) => {
+  try {
+    let updatedAuthor = await Author.findByIdAndUpdate(
+      req.params.id,
+      { avatar: req.file.path },
+      { new: true }
+    );
+
+    res.send(updatedAuthor);
   } catch (err) {
     res.send(err);
   }

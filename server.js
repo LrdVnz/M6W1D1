@@ -6,6 +6,7 @@ const authorsRoute = require('./services/routes/authors.route')
 const blogsRoute = require('./services/routes/blogs.route')
 const data = require("./src/data/posts.json");
 const cors = require("cors")
+const sendEmail = require('./services/middleware/mailer')
 
 const app = express(); 
 const port = 3000; 
@@ -26,6 +27,8 @@ async function initServer() {
 
       console.log("connection successful!")
       
+     sendEmail(); 
+
       app.listen(port, () => {
         console.log(`listening on port ${port}`)
       })

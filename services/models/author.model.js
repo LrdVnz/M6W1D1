@@ -24,7 +24,7 @@ const authorSchema = new Schema(
 
     avatar: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 

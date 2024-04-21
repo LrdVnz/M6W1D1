@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose"); 
+const { Schema, model, default: mongoose } = require("mongoose"); 
 
 const readTime = new Schema(
     {
@@ -52,8 +52,8 @@ const blogSchema = new Schema(
         }, 
         
         author: {
-            type: author, 
-            required: true
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Author'
         }, 
 
         content: {
