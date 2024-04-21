@@ -27,7 +27,7 @@ async function initServer() {
 
       console.log("connection successful!")
       
-     sendEmail(); 
+      // sendEmail(); 
 
       app.listen(port, () => {
         console.log(`listening on port ${port}`)

@@ -24,6 +24,11 @@ const author = new Schema(
         avatar: {
             type: String, 
             required: true
+        }, 
+
+        email: {
+            type: String, 
+            required: false
         }
     }
 )
@@ -52,18 +57,15 @@ const blogSchema = new Schema(
         }, 
         
         author: {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Author'
+        /* type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Author' */
+            type : author, 
+            required: true
         }, 
 
         content: {
             type: String, 
             required: true
-        }, 
-
-        avatar: {
-            type: String, 
-            required: false
         }
     }, 
 

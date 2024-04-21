@@ -1,28 +1,32 @@
 const nodemailer = require("nodemailer");
 
+//creare middleware con req res etc !
+async function sendEmail(req, res, next) {
+
 const message = {
   from: "emelia.jakubowski@ethereal.email",
-  to: "example@email.com",
+  to: req.body.author.email,
   subject: "Email di prova",
   text: "Versione di testo del messaggio",
 };
 
-async function sendEmail() {
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      host: 'smtp.ethereal.email',
       port: 587,
       auth: {
-        user: "emelia.jakubowski@ethereal.email",
-        pass: "d8tWnp1XZ3wkhdaFbF",
-      },
-    });
+          user: 'katelin.murray@ethereal.email',
+          pass: 'nuSPEJDHAQhCaQ8Yy6'
+      }
+  });
 
     const mail = await transporter.sendMail(message);
 
+    next()
     console.log(mail);
   } catch (err) {
     console.log(err);
+    next()
   }
 }
 

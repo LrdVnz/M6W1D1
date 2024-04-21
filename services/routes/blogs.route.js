@@ -4,6 +4,7 @@ const Blog = require("../models/blog.model.js");
 const { reset } = require("nodemon");
 const { trusted } = require("mongoose");
 const { uploadCover } = require("../middleware/uploadFile.js");
+const mailer = require("../middleware/mailer.js")
 
 const blogsRoute = express.Router();
 
@@ -16,7 +17,7 @@ blogsRoute.get("/", async (req, res) => {
   }
 });
 
-blogsRoute.post("/", async (req, res) => {
+blogsRoute.post("/", mailer,  async (req, res) => {
   try {
     const result = await Blog.create(req.body);
 

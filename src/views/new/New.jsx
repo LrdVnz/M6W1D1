@@ -1,21 +1,58 @@
 import React, { useCallback, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles.css";
-import {convertToRaw} from "draft-js"
-import draftToHtml from "draftjs-to-html"
-const NewBlogPost = props => {
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+
+const NewBlogPost = (props) => {
   const [text, setText] = useState("");
-  const handleChange = useCallback(value => {
-    
+  const handleChange = useCallback((value) => {
     setText(draftToHtml(value));
-    console.log(text)
     // console.log(convertToRaw(value.getCurrentContent()))
   });
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const newPost = {
+      title: event.target.elements["blog-form"].value,
+      content: text,
+      category: event.target.elements["blog-category"].value,
+      // dati di readtime cover e author dummy. Da creare i vari input per inserirli
+      cover:
+        "https://res.cloudinary.com/dogunqggs/image/upload/v1713626376/covers/wrb75jpweym7fuwxl8li.jpg",
+      readTime: {
+        value: 10,
+        unit: "mins",
+      },
+      author: {
+        name: "tobia de angelis",
+        avatar:
+          "https://res.cloudinary.com/dogunqggs/image/upload/v1713471343/samples/upscale-face-1.jpg",
+        email: "tobiadeangilino@email.com"
+      },
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/blogs/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPost),
+      });
+
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <Container className="new-blog-container">
-      <Form className="mt-5">
+      <Form className="mt-5" onSubmit={handleSubmit}>
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Titolo</Form.Label>
           <Form.Control size="lg" placeholder="Title" />
@@ -33,7 +70,11 @@ const NewBlogPost = props => {
         <Form.Group controlId="blog-content" className="mt-3">
           <Form.Label>Contenuto Blog</Form.Label>
 
-          <Editor value={text} onChange={handleChange} className="new-blog-content" />
+          <Editor
+            value={text}
+            onChange={handleChange}
+            className="new-blog-content"
+          />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-end">
           <Button type="reset" size="lg" variant="outline-dark">
