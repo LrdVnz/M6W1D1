@@ -57,10 +57,10 @@ const blogSchema = new Schema(
         }, 
         
         author: {
-        /* type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Author' */
-            type : author, 
-            required: true
+            type: Schema.Types.ObjectId, 
+            ref: 'Author'
+            /* type : author, 
+            required: true */
         }, 
 
         content: {

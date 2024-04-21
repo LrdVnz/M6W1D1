@@ -5,7 +5,6 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles.css";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-
 const NewBlogPost = (props) => {
   const [text, setText] = useState("");
   const handleChange = useCallback((value) => {
@@ -27,12 +26,7 @@ const NewBlogPost = (props) => {
         value: 10,
         unit: "mins",
       },
-      author: {
-        name: "tobia de angelis",
-        avatar:
-          "https://res.cloudinary.com/dogunqggs/image/upload/v1713471343/samples/upscale-face-1.jpg",
-        email: "tobiadeangilino@email.com"
-      },
+      author: '661bd43fc1e727255a0f6a68'
     };
 
     try {

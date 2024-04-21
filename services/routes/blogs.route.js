@@ -10,7 +10,7 @@ const blogsRoute = express.Router();
 
 blogsRoute.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate('author');
     res.send(blogs);
   } catch (err) {
     res.send(err);
@@ -29,7 +29,7 @@ blogsRoute.post("/", mailer,  async (req, res) => {
 
 blogsRoute.get("/:id", async (req, res) => {
   try {
-    const result = await Blog.findById(req.params.id);
+    const result = await Blog.findById(req.params.id).populate('author');
     res.send(result);
   } catch (err) {
     res.send(err);

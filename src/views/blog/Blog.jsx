@@ -14,10 +14,10 @@ const Blog = (props) => {
 
   useEffect(() => {
     const { id } = params;
-    console.log(id)
+    console.log(id);
     /* const blog = posts.find(post => post._id.toString() === id); */
-    
-     getPosts(id)
+
+    getPosts(id);
   }, []);
 
   async function getPosts(id) {
@@ -25,14 +25,13 @@ const Blog = (props) => {
       const res = await fetch("http://localhost:3000/blogs/" + id);
       const json = await res.json();
 
-      console.log(json)
+      console.log(json);
       if (json) {
-        setBlog(json)
+        setBlog(json);
         setLoading(false);
       } else {
         navigate("/404");
-      } 
-
+      }
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +48,10 @@ const Blog = (props) => {
 
           <div className="blog-details-container">
             <div className="blog-details-author">
-              <BlogAuthor {...blog.author} />
+              <BlogAuthor
+                name={blog.author.name}
+                avatar={blog.author.avatar}
+              />
             </div>
             <div className="blog-details-info">
               <div>{blog.createdAt}</div>
