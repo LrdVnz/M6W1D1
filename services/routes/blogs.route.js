@@ -85,6 +85,16 @@ blogsRoute.patch("/:id/author", async (req, res, next) => {
   }
 });
 
+blogsRoute.get("/:id/comments", async (req, res, next) => {
+  try {
+    let post = await Blog.findById(req.params.id);
+
+    res.send(post.comments);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 blogsRoute.post("/:id/comments", async (req, res, next) => {
   try {
     let updatedComments = await Blog.findByIdAndUpdate(
