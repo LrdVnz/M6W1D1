@@ -4,20 +4,20 @@ const Blog = require("../models/blog.model.js");
 const { reset } = require("nodemon");
 const { trusted } = require("mongoose");
 const { uploadCover } = require("../middleware/uploadFile.js");
-const mailer = require("../middleware/mailer.js")
+const mailer = require("../middleware/mailer.js");
 
 const blogsRoute = express.Router();
 
 blogsRoute.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find().populate('author');
+    const blogs = await Blog.find().populate("author");
     res.send(blogs);
   } catch (err) {
     res.send(err);
   }
 });
 
-blogsRoute.post("/", mailer,  async (req, res) => {
+blogsRoute.post("/", mailer, async (req, res) => {
   try {
     const result = await Blog.create(req.body);
 
@@ -29,7 +29,7 @@ blogsRoute.post("/", mailer,  async (req, res) => {
 
 blogsRoute.get("/:id", async (req, res) => {
   try {
-    const result = await Blog.findById(req.params.id).populate('author');
+    const result = await Blog.findById(req.params.id).populate("author");
     res.send(result);
   } catch (err) {
     res.send(err);
@@ -57,38 +57,46 @@ blogsRoute.delete("/:id", async (req, res) => {
   }
 });
 
-
-blogsRoute.patch("/:id/cover", uploadCover, async (req, res, next ) => {
-
-   try {
-
+blogsRoute.patch("/:id/cover", uploadCover, async (req, res, next) => {
+  try {
     let updatedBlog = await Blog.findByIdAndUpdate(
-      req.params.id, 
-      { cover: req.file.path }, 
+      req.params.id,
+      { cover: req.file.path },
       { new: true }
-    ); 
+    );
 
-    res.send(updatedBlog)
-   } catch(err) {
-    res.send(err)
-   }
-   
-})
+    res.send(updatedBlog);
+  } catch (err) {
+    res.send(err);
+  }
+});
 
 blogsRoute.patch("/:id/author", async (req, res, next) => {
-
   try {
-
     let updatedAuthor = await Blog.findByIdAndUpdate(
-      req.params.id, 
-      { author: req.body.author }, 
+      req.params.id,
+      { author: req.body.author },
       { new: true }
-    )
+    );
 
-    res.send(updatedAuthor)
-  } catch(err) {
-    res.send(err)
+    res.send(updatedAuthor);
+  } catch (err) {
+    res.send(err);
   }
-})
+});
+
+blogsRoute.post("/:id/comments", async (req, res, next) => {
+  try {
+    let updatedComments = await Blog.findByIdAndUpdate(
+      req.params.id,
+      { comments: req.body.comments },
+      { new: true }
+    );
+
+    res.send(updatedComments);
+  } catch (err) {
+    res.send(err);
+  }
+});
 
 module.exports = blogsRoute;

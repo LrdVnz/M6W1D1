@@ -3,6 +3,8 @@ const nodemailer = require("nodemailer");
 //creare middleware con req res etc !
 async function sendEmail(req, res, next) {
 
+  console.log(req.body)
+
 const message = {
   from: "emelia.jakubowski@ethereal.email",
   to: req.body.author.email,

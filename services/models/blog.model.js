@@ -66,7 +66,14 @@ const blogSchema = new Schema(
         content: {
             type: String, 
             required: true
-        }
+        }, 
+
+        comments: [ 
+            { 
+              type: String, 
+              required: false
+            }
+        ]
     }, 
 
     { 
