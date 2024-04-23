@@ -109,4 +109,35 @@ blogsRoute.post("/:id/comments", async (req, res, next) => {
   }
 });
 
+blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
+  try {
+    let blog = await Blog.findById(req.params.id)
+    let comments = blog.comments.filter((el) => el._id == req.params.index)
+    
+    blog = await Blog.findByIdAndUpdate(req.params.id, {
+      comments: comments
+    },
+    { 
+      new: true
+    }
+  );
+
+    res.send(blog);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+blogsRoute.get("/:id/comments/:index", async (req, res, next) => {
+  try {
+    let blog = await Blog.findById(req.params.id)
+    let comments = blog.comments[req.params.index]
+    
+    console.log(req.params.id)
+    res.send(comments);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 module.exports = blogsRoute;

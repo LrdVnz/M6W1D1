@@ -68,11 +68,20 @@ const blogSchema = new Schema(
             required: true
         }, 
 
-        comments: [ 
+        comments: 
+             [
+            { 
+             name : 
             { 
               type: String, 
-              required: false
+              required: true
+            },
+            description : 
+            {
+              type: String, 
+              required: true
             }
+        }
         ]
     }, 
 
