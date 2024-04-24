@@ -97,9 +97,13 @@ blogsRoute.get("/:id/comments", async (req, res, next) => {
 
 blogsRoute.post("/:id/comments", async (req, res, next) => {
   try {
+    let blog = await Blog.findById(req.params.id);
+    
+    blog.comments = [...blog.comments, req.body.comment]  
+    
     let updatedComments = await Blog.findByIdAndUpdate(
       req.params.id,
-      { comments: req.body.comments },
+      { comments: blog.comments },
       { new: true }
     );
 
