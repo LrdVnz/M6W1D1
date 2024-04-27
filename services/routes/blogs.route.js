@@ -113,24 +113,6 @@ blogsRoute.post("/:id/comments", async (req, res, next) => {
   }
 });
 
-blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
-  try {
-    let blog = await Blog.findById(req.params.id)
-    let comments = blog.comments.filter((el) => el._id == req.params.index)
-    
-    blog = await Blog.findByIdAndUpdate(req.params.id, {
-      comments: comments
-    },
-    { 
-      new: true
-    }
-  );
-
-    res.send(blog);
-  } catch (err) {
-    res.send(err);
-  }
-});
 
 blogsRoute.get("/:id/comments/:index", async (req, res, next) => {
   try {
@@ -153,6 +135,29 @@ blogsRoute.put("/:id/comments/:index", async (req, res, next) => {
     let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
     {
         comments : blog.comments 
+    }, 
+    {
+        new: true
+    })
+
+    res.send(updatedComment);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
+  try {
+    let index = req.params.index
+    let blog = await Blog.findById(req.params.id)
+    let newComments = blog.comments.filter( (el, el_index) => el_index != index )
+
+    console.log("sto ruinnangooo")
+    console.log(newComments)
+
+    let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
+    {
+        comments : newComments 
     }, 
     {
         new: true
