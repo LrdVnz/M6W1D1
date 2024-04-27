@@ -135,10 +135,30 @@ blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
 blogsRoute.get("/:id/comments/:index", async (req, res, next) => {
   try {
     let blog = await Blog.findById(req.params.id)
-    let comments = blog.comments[req.params.index]
+    let comment = blog.comments[req.params.index]
     
     console.log(req.params.id)
-    res.send(comments);
+    res.send(comment);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+blogsRoute.put("/:id/comments/:index", async (req, res, next) => {
+  try {
+    let index = req.params.index
+    let blog = await Blog.findById(req.params.id)
+    blog.comments[index] = req.body.comment; 
+
+    let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
+    {
+        comments : blog.comments 
+    }, 
+    {
+        new: true
+    })
+
+    res.send(updatedComment);
   } catch (err) {
     res.send(err);
   }
