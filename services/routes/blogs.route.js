@@ -152,9 +152,6 @@ blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
     let blog = await Blog.findById(req.params.id)
     let newComments = blog.comments.filter( (el, el_index) => el_index != index )
 
-    console.log("sto ruinnangooo")
-    console.log(newComments)
-
     let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
     {
         comments : newComments 

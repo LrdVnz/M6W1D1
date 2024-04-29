@@ -3,6 +3,8 @@ const Author = require("../models/author.model.js");
 const { uploadAvatar } = require("../middleware/uploadFile.js");
 const data = require("../../src/data/posts.json");
 const { reset } = require("nodemon");
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const authorsRoute = express.Router();
 
@@ -10,12 +12,27 @@ authorsRoute.get("/", async (req, res) => {
   res.send(showAuthors(data));
 });
 
-/* authorsRoute.get("/seeReq", async (req, res) =>  {
-  res.send(req.body.name)
+/*
+Dobbiamo fare in modo che l'utente possa loggare al suo account. 
+Dovrà passare come body : 
+nome utente 
+password. 
+La password verrà decriptata e gestita da bcrypt. 
+*/
+authorsRoute.post("/login", async (req, res) => {
+   const author = await Author.findOne({ name: req.body.name });
+   if(author == null ) {
+    res.send("author not found")
+   }
+   if ( bcrypt.compare(req.body.password, author.password)){
+    res.send(author)
+   } else {
+    res.send("you typed the wrong password")
+   }
 })
- */
 
-authorsRoute.get("/authors", async (req, res) => {
+
+authorsRoute.get("/", async (req, res) => {
   try {
     const data = await Author.find();
     res.json(data);
@@ -34,8 +51,29 @@ authorsRoute.get("/:id", async (req, res) => {
   }
 });
 
+authorsRoute.get("/posts", async (req, res, next) => {
+
+})
+
+/* Da inserire la crittazione della password tramite bcrypt. 
+   - Prendi password 
+   - Genera salt 
+   - Genera hash 
+   - salva la password con hash
+*/
 authorsRoute.post("/", async (req, res) => {
   try {
+
+    let salt = await bcrypt.genSalt(10); 
+    let hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+    /* 
+    cambiamo la password passata dall'utente con quella generata da bcrypt
+    in questo modo possiamo copiare direttamente il body per creare l'utente senza scrivere ogni parametro a mano!  
+    */
+
+    req.body.password = hashedPassword;
+
     let author = await Author.create(req.body);
 
     res.send(author).status(400);
@@ -43,8 +81,6 @@ authorsRoute.post("/", async (req, res) => {
     res.send(err);
   }
 });
-
-// example id for modify 661bd43fc1e727255a0f6a68
 
 authorsRoute.put("/:id", async (req, res) => {
   try {

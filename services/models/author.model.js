@@ -10,6 +10,11 @@ const authorSchema = new Schema(
     lastName: {
       type: String,
       required: true,
+    }, 
+
+    password: {
+      type: String, 
+      required: true, 
     },
 
     email: {
