@@ -18,11 +18,13 @@ blogsRoute.get("/", async (req, res) => {
   }
 });
 
-blogsRoute.post("/", mailer, async (req, res) => {
+blogsRoute.post("/", verifyToken, /*  mailer ,*/ async (req, res) => {
   try {
+    req.body.author = req.user.author._id
+
     const result = await Blog.create(req.body);
 
-    res.send(result).status(400);
+    res.status(201).send(result)
   } catch (err) {
     res.send(err);
   }
