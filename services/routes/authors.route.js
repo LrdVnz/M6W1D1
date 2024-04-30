@@ -46,14 +46,17 @@ authorsRoute.get("/", async (req, res) => {
   }
 });
 
+authorsRoute.get("/me", verifyToken, async (req, res, next) => {
+
+  res.send(req.user)
+});
+
 authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
-  console.log(req.user)
   let posts = await Post.find(
     {
       author : req.user
     });
 
-  console.log("yeyeyeyeey")
   res.send(posts)
 });
 
