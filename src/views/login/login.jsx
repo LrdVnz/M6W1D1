@@ -1,7 +1,10 @@
 import { Container, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./styles.css"
 
 export default function Login() {
+
+    const navigate = useNavigate()
 
     async function handleSubmit(event){
         event.preventDefault();
@@ -23,7 +26,9 @@ export default function Login() {
             const json = await res.json()
             const authToken = json.accessToken 
             localStorage.setItem('accessToken', authToken)
+            navigate("/")
             console.log(res)
+            console.log("logged in...")
         } catch(err) {
             console.log(err)
         }
