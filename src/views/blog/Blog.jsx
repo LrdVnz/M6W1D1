@@ -25,6 +25,7 @@ const Blog = (props) => {
       const res = await fetch("http://localhost:3000/blogs/" + id);
       const json = await res.json();
 
+      //console.log(json)
       if (json) {
         setBlog(json);
         setLoading(false);
@@ -74,7 +75,8 @@ const Blog = (props) => {
         <Container>
           <h2 className="">Commenti : </h2>
           <Row className="">
-            {blog.comments.map((comment, i) => (
+            {
+            blog.comments.map((comment, i) => (
               <Col
                 key={`comment-${i}`}
                 sm={12}
@@ -83,7 +85,7 @@ const Blog = (props) => {
                   border: "solid 2px lightgray"
                 }}
               >
-                <h3> {comment.name} </h3>
+               <h5>{comment.author.name && comment.author.name} </h5>
                 <p> {comment.description} </p>
               </Col>
             ))}

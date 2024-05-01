@@ -32,7 +32,10 @@ blogsRoute.post("/", verifyToken, /*  mailer ,*/ async (req, res) => {
 
 blogsRoute.get("/:id", async (req, res) => {
   try {
-    const result = await Blog.findById(req.params.id).populate("author");
+    const result = await Blog.findById(req.params.id)
+    .populate("author")
+    .populate("comments.author")
+    ;
     res.send(result);
   } catch (err) {
     res.send(err);
