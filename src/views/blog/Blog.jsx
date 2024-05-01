@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Image } from "react-bootstrap";
+import { Container, Image, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
@@ -25,7 +25,6 @@ const Blog = (props) => {
       const res = await fetch("http://localhost:3000/blogs/" + id);
       const json = await res.json();
 
-      console.log(json);
       if (json) {
         setBlog(json);
         setLoading(false);
@@ -48,10 +47,7 @@ const Blog = (props) => {
 
           <div className="blog-details-container">
             <div className="blog-details-author">
-              <BlogAuthor
-                name={blog.author.name}
-                avatar={blog.author.avatar}
-              />
+              <BlogAuthor name={blog.author.name} avatar={blog.author.avatar} />
             </div>
             <div className="blog-details-info">
               <div>{blog.createdAt}</div>
@@ -71,6 +67,24 @@ const Blog = (props) => {
               __html: blog.content,
             }}
           ></div>
+        </Container>
+        <Container>
+          <h2>Commenti : </h2>
+          <Row>
+            {blog.comments.map((comment, i) => (
+              <Col
+                key={`comment-${i}`}
+                sm={12}
+                style={{
+                  margin: 10,
+                  border: "solid 2px lightgray"
+                }}
+              >
+                <h3> {comment.name} </h3>
+                <p> {comment.description} </p>
+              </Col>
+            ))}
+          </Row>
         </Container>
       </div>
     );

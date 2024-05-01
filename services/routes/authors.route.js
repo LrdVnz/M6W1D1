@@ -92,7 +92,7 @@ authorsRoute.post("/register", async (req, res) => {
 
     let author = await Author.create(req.body);
 
-    res.send(author).status(400);
+    res.send(author).status(201);
   } catch (err) {
     res.send(err);
   }
