@@ -4,7 +4,8 @@ import Footer from "./components/footer/Footer";
 import Home from "./views/home/Home";
 import Blog from "./views/blog/Blog";
 import NewBlogPost from "./views/new/New";
-import Login from "./views/login/login"
+import Login from "./views/login/login";
+import Register from "./views/register/register"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/blogs/:id" element={<Blog />} />
         <Route path="/new" element={<NewBlogPost />} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
       </Routes>
       <Footer />
     </Router>
