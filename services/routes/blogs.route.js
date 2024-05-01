@@ -102,7 +102,11 @@ blogsRoute.post("/:id/comments", verifyToken, async (req, res, next) => {
   try {
     //viene creato req.user.author tramite il middleware 
     // va messo nel commento come autore. 
-    console.log(req.user)
+
+    console.log("_-----------------------------------------")
+    console.log(req)
+    console.log(req.params)
+
     let blog = await Blog.findById(req.params.id);
     
     req.body.comment.author = req.user.author._id

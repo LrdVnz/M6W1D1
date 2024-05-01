@@ -3,7 +3,7 @@ import { Container, Image, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
-/* import posts from "../../data/posts.json"; */
+import AddComment from "../comments/addComment";
 import "./styles.css";
 
 const Blog = (props) => {
@@ -69,8 +69,11 @@ const Blog = (props) => {
           ></div>
         </Container>
         <Container>
-          <h2>Commenti : </h2>
-          <Row>
+          <AddComment></AddComment>
+        </Container>
+        <Container>
+          <h2 className="">Commenti : </h2>
+          <Row className="">
             {blog.comments.map((comment, i) => (
               <Col
                 key={`comment-${i}`}

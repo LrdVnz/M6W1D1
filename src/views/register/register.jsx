@@ -8,7 +8,7 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const loginData = JSON.stringify({
+    const registerData = JSON.stringify({
       name: event.target.elements["input-name"].value,
       lastName: event.target.elements["input-lastname"].value,
       password: event.target.elements["input-password"].value,
@@ -23,7 +23,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: loginData,
+        body: registerData,
       });
 
       navigate("/");
