@@ -24,8 +24,7 @@ password.
 La password verrà decriptata e gestita da bcrypt. 
 */
 authorsRoute.post("/login", async (req, res) => {
-  console.log("siamo nel login")
-  console.log(req.body)
+  
   const author = await Author.findOne({ name: req.body.name });
   if (author == null) {
     res.send("author not found");

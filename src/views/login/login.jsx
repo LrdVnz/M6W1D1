@@ -11,7 +11,6 @@ export default function Login() {
             password : event.target.elements["input-password"].value
         })
 
-        console.log(loginData)
         try {
             const res = await fetch("http://localhost:3000/authors/login", {
                 method: "POST",
@@ -21,6 +20,9 @@ export default function Login() {
                 body: loginData
             });
 
+            const json = await res.json()
+            const authToken = json.accessToken 
+            localStorage.setItem('accessToken', authToken)
             console.log(res)
         } catch(err) {
             console.log(err)
