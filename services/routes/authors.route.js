@@ -55,7 +55,7 @@ authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
   let posts = await Post.find(
     {
       author : req.user
-    });
+    }).populate("author");
 
   res.send(posts)
 });

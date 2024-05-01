@@ -13,6 +13,7 @@ async function verifyToken(req, res, next) {
     if (err) {
         res.send(err)
     } else if (user){
+        console.log(user)
         req.user = user; 
         next();
     }

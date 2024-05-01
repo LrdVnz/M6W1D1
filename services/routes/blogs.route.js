@@ -106,7 +106,6 @@ blogsRoute.post("/:id/comments", verifyToken, async (req, res, next) => {
     let blog = await Blog.findById(req.params.id);
     
     req.body.comment.author = req.user.author._id
-   // req.body.comment.author = req.user.author._id 
     blog.comments = [...blog.comments, req.body.comment]  
     
     let updatedComments = await Blog.findByIdAndUpdate(
