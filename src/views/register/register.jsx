@@ -8,24 +8,22 @@ export default function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const registerData = JSON.stringify({
-      name: event.target.elements["input-name"].value,
-      lastName: event.target.elements["input-lastname"].value,
-      password: event.target.elements["input-password"].value,
-      email: event.target.elements["input-email"].value,
-      birthDate: event.target.elements["input-birthdate"].value,
-      avatar: event.target.elements["input-avatar"].value,
-    });
+    console.log(event.target.elements)
+    const formData = new FormData();
 
+    formData.append('name', event.target.elements["input-name"].value);
+    formData.append('lastName', event.target.elements["input-lastname"].value);
+    formData.append('password', event.target.elements["input-password"].value);
+    formData.append('email', event.target.elements["input-email"].value);
+    formData.append('birthDate', event.target.elements["input-birthdate"].value);
+    formData.append('avatar', event.target.elements["input-avatar"].files[0]);
+  
     try {
       const res = await fetch("http://localhost:3000/authors/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: registerData,
+        body: formData, 
       });
-
+  
       navigate("/");
       console.log(res);
     } catch (err) {
@@ -58,13 +56,12 @@ export default function Login() {
           <Form.Control type="text" />
         </Form.Group>
         <Form.Group controlId="input-avatar">
-          <Form.Label> Link al tuo avatar : </Form.Label>
-          <Form.Control type="text" />
+          <Form.Label> Carica il tuo avatar : </Form.Label>
+          <Form.Control type="file" />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-center">
           <Button type="submit" size="lg" variant="dark">
-            {" "}
-            Invia
+            invia
           </Button>
         </Form.Group>
       </Form>

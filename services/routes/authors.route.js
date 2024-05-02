@@ -79,7 +79,7 @@ authorsRoute.get("/:id", async (req, res) => {
    - salva la password con hash
 */
 
-authorsRoute.post("/register", async (req, res) => {
+authorsRoute.post("/register", uploadAvatar, async (req, res) => {
   try {
     let salt = await bcrypt.genSalt(10);
     let hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -89,6 +89,10 @@ authorsRoute.post("/register", async (req, res) => {
     in questo modo possiamo copiare direttamente il body per creare l'utente senza scrivere ogni parametro a mano!  
     */
     req.body.password = hashedPassword;
+
+    console.log(req.body)
+
+    req.body.avatar = req.file.path
 
     let author = await Author.create(req.body);
 
