@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
-import posts from "../../../data/posts.json";
 import BlogItem from "../blog-item/BlogItem";
 
 const BlogList = props => {
@@ -15,7 +14,7 @@ const BlogList = props => {
       const res = await fetch("http://localhost:3000/blogs");     
       const json = await res.json(); 
       
-      console.log(json)
+      ///console.log(json)
       setBlogs(json)
 
     } catch(err) {

@@ -85,7 +85,8 @@ const Blog = (props) => {
                   border: "solid 2px lightgray"
                 }}
               >
-               <h5>{comment.author.name && comment.author.name} </h5>
+                <span width="200px"><img src={`${comment.author.avatar}`} alt="" width="100px"/></span>
+               <span width="200px"><h5>{comment.author.name && comment.author.name} </h5></span>
                 <p> {comment.description} </p>
               </Col>
             ))}
