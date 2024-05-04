@@ -38,6 +38,7 @@ blogsRoute.get("/:id",  verifyToken, async (req, res) => {
     ;
     res.send(result);
   } catch (err) {
+
     res.send(err);
   }
 });
