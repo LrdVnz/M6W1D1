@@ -12,6 +12,8 @@ const NewBlogPost = (props) => {
     // console.log(convertToRaw(value.getCurrentContent()))
   });
 
+  const authorToken = localStorage.getItem("accessToken");
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -34,6 +36,7 @@ const NewBlogPost = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authorToken}`
         },
         body: JSON.stringify(newPost),
       });

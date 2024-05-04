@@ -23,22 +23,8 @@ nome utente
 password. 
 La password verrà decriptata e gestita da bcrypt. 
 */
-authorsRoute.post("/login", async (req, res) => {
-  
-  const author = await Author.findOne({ name: req.body.name });
-  if (author == null) {
-    res.send("author not found");
-  }
-  if (bcrypt.compare(req.body.password, author.password)) {
-   
-    const accessToken = createToken(author);
-    res.json({ accessToken: accessToken , author: author});
-  } else {
-    res.send("you typed the wrong password");
-  }
-});
 
-authorsRoute.get("/", async (req, res) => {
+authorsRoute.get("/", verifyToken, async (req, res) => {
   try {
     const data = await Author.find();
     res.json(data);
@@ -47,21 +33,15 @@ authorsRoute.get("/", async (req, res) => {
   }
 });
 
-authorsRoute.get("/me", verifyToken, async (req, res, next) => {
-
-  res.send(req.user)
-});
-
 authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
-  let posts = await Post.find(
-    {
-      author : req.user
-    }).populate("author");
+  let posts = await Post.find({
+    author: req.user,
+  }).populate("author");
 
-  res.send(posts)
+  res.send(posts);
 });
 
-authorsRoute.get("/:id", async (req, res) => {
+authorsRoute.get("/:id", verifyToken, async (req, res) => {
   try {
     const result = await Author.findById(req.params.id);
 
@@ -71,13 +51,22 @@ authorsRoute.get("/:id", async (req, res) => {
   }
 });
 
+authorsRoute.get("/me", verifyToken, async (req, res, next) => {
+  res.send(req.user);
+});
 
-/* Da inserire la crittazione della password tramite bcrypt. 
-   - Prendi password 
-   - Genera salt 
-   - Genera hash 
-   - salva la password con hash
-*/
+authorsRoute.post("/login", async (req, res) => {
+  const author = await Author.findOne({ name: req.body.name });
+  if (author == null) {
+    res.send("author not found");
+  }
+  if (bcrypt.compare(req.body.password, author.password)) {
+    const accessToken = createToken(author);
+    res.json({ accessToken: accessToken, author: author });
+  } else {
+    res.send("you typed the wrong password");
+  }
+});
 
 authorsRoute.post("/register", uploadAvatar, async (req, res) => {
   try {
@@ -90,9 +79,9 @@ authorsRoute.post("/register", uploadAvatar, async (req, res) => {
     */
     req.body.password = hashedPassword;
 
-    console.log(req.body)
+    console.log(req.body);
 
-    req.body.avatar = req.file.path
+    req.body.avatar = req.file.path;
 
     let author = await Author.create(req.body);
 
@@ -102,7 +91,7 @@ authorsRoute.post("/register", uploadAvatar, async (req, res) => {
   }
 });
 
-authorsRoute.put("/:id", async (req, res) => {
+authorsRoute.put("/:id", verifyToken, async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -116,7 +105,7 @@ authorsRoute.put("/:id", async (req, res) => {
   }
 });
 
-authorsRoute.delete("/:id", async (req, res) => {
+authorsRoute.delete("/:id", verifyToken,  async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -128,7 +117,7 @@ authorsRoute.delete("/:id", async (req, res) => {
   }
 });
 
-authorsRoute.patch("/:id/avatar", uploadAvatar, async (req, res, next) => {
+authorsRoute.patch("/:id/avatar", verifyToken,  uploadAvatar, async (req, res, next) => {
   try {
     let updatedAuthor = await Author.findByIdAndUpdate(
       req.params.id,
@@ -151,7 +140,6 @@ function showAuthors(data) {
 }
 
 function createToken(author, id) {
-  console.log("yeyeeyeyey")
   const authorPayload = {
     author: author,
   };

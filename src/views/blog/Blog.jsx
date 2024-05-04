@@ -12,17 +12,22 @@ const Blog = (props) => {
   const params = useParams();
   const navigate = useNavigate();
 
+  const authorToken = localStorage.getItem("accessToken");
+
   useEffect(() => {
     const { id } = params;
     console.log(id);
-    /* const blog = posts.find(post => post._id.toString() === id); */
 
     getPosts(id);
   }, []);
 
   async function getPosts(id) {
     try {
-      const res = await fetch("http://localhost:3000/blogs/" + id);
+      const res = await fetch("http://localhost:3000/blogs/" + id, {
+        headers: {
+          Authorization: `Bearer ${authorToken}`,
+        },
+      });
       const json = await res.json();
 
       //console.log(json)
@@ -75,18 +80,21 @@ const Blog = (props) => {
         <Container>
           <h2 className="">Commenti : </h2>
           <Row className="">
-            {
-            blog.comments.map((comment, i) => (
+            {blog.comments.map((comment, i) => (
               <Col
                 key={`comment-${i}`}
                 sm={12}
                 style={{
                   margin: 10,
-                  border: "solid 2px lightgray"
+                  border: "solid 2px lightgray",
                 }}
               >
-                <span width="200px"><img src={`${comment.author.avatar}`} alt="" width="100px"/></span>
-               <span width="200px"><h5>{comment.author.name && comment.author.name} </h5></span>
+                <span width="200px">
+                  <img src={`${comment.author.avatar}`} alt="" width="100px" />
+                </span>
+                <span width="200px">
+                  <h5>{comment.author.name && comment.author.name} </h5>
+                </span>
                 <p> {comment.description} </p>
               </Col>
             ))}

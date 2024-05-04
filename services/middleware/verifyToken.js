@@ -11,7 +11,7 @@ async function verifyToken(req, res, next) {
 
    jwt.verify(authToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-        res.send(err)
+        res.sendStatus(401)
     } else if (user){
         console.log(user)
         req.user = user; 

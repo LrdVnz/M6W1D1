@@ -9,7 +9,7 @@ const verifyToken = require("../middleware/verifyToken.js")
 
 const blogsRoute = express.Router();
 
-blogsRoute.get("/", async (req, res) => {
+blogsRoute.get("/", verifyToken,  async (req, res) => {
   try {
     const blogs = await Blog.find().populate("author");
     res.send(blogs);
@@ -30,7 +30,7 @@ blogsRoute.post("/", verifyToken, /*  mailer ,*/ async (req, res) => {
   }
 });
 
-blogsRoute.get("/:id", async (req, res) => {
+blogsRoute.get("/:id",  verifyToken, async (req, res) => {
   try {
     const result = await Blog.findById(req.params.id)
     .populate("author")

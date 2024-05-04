@@ -4,6 +4,9 @@ import BlogItem from "../blog-item/BlogItem";
 
 const BlogList = props => {
   const [ blogs, setBlogs ] = useState()
+  const [ isError, setIsError ] = useState(false)
+
+  const authorToken = localStorage.getItem("accessToken");
   
   useEffect(() => {
       getPosts() 
@@ -11,7 +14,16 @@ const BlogList = props => {
 
   async function getPosts() {
     try {
-      const res = await fetch("http://localhost:3000/blogs");     
+      const res = await fetch("http://localhost:3000/blogs", {
+        headers: {
+          Authorization: `Bearer ${authorToken}`,
+        },
+    }
+  );     
+
+      if (res.status == 401){
+         setIsError(true)
+      }
       const json = await res.json(); 
       
       ///console.log(json)
@@ -24,7 +36,9 @@ const BlogList = props => {
 
   return (
     <Row>
-      { !blogs && <p> loading </p>}
+      { (!blogs && !isError) && <p> loading </p>}
+
+      { isError && <h2>401 unauthorized. Please log in</h2>}
 
       { blogs && blogs.map((post, i) => (
         <Col

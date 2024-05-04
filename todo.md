@@ -1,5 +1,10 @@
+- TUTTI gli endpoint accessibili solo tramite token
+- Error handling !!!!
+--- Messaggio di errore per utente non autorizzato
+
 - Cambiare "username" nel login 
 -- é la stessa cosa di "Name" ? (si)
 - Controllare nella schermata di login se un utente è già loggato 
 - Mettere nella navbar l'utente corrente 
 - Quando fatto il login, rimane l'immagine avatar dell'utente precedente
+- Tasti di login, logout, registrati etc
