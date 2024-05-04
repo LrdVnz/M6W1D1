@@ -8,7 +8,29 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
-const optionsCover = {
+
+function setOptions(folderName) {
+  const options = {
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: folderName,
+    },
+  }),
+}
+return options
+};
+
+const uploadAvatar = multer(setOptions("avatar")).single("avatar");
+const uploadCover = multer(setOptions("cover")).single("cover");
+
+
+module.exports = { 
+  uploadAvatar: uploadAvatar,
+  uploadCover : uploadCover
+}; 
+
+/* const optionsCover = {
   storage: new CloudinaryStorage({
     cloudinary,
     params: {
@@ -34,3 +56,4 @@ module.exports = {
   uploadCover : uploadCover,
   uploadAvatar: uploadAvatar
 };
+ */

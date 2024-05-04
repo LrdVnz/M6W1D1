@@ -1,5 +1,6 @@
 import { Container, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import "./styles.css"
 
 export default function Login() {
@@ -24,8 +25,11 @@ export default function Login() {
             });
 
             const json = await res.json()
-            const authToken = json.accessToken 
+            console.log(json)
+            const authToken = json.accessToken
+            const currentAuthor = JSON.stringify(json.author) 
             localStorage.setItem('accessToken', authToken)
+            localStorage.setItem('currentAuthor', currentAuthor)
             navigate("/")
             console.log(res)
             console.log("logged in...")

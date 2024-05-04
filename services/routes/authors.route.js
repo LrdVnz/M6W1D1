@@ -32,7 +32,7 @@ authorsRoute.post("/login", async (req, res) => {
   if (bcrypt.compare(req.body.password, author.password)) {
    
     const accessToken = createToken(author);
-    res.json({ accessToken: accessToken });
+    res.json({ accessToken: accessToken , author: author});
   } else {
     res.send("you typed the wrong password");
   }

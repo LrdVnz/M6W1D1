@@ -1,0 +1,5 @@
+- Cambiare "username" nel login 
+-- é la stessa cosa di "Name" ? (si)
+- Controllare nella schermata di login se un utente è già loggato 
+- Mettere nella navbar l'utente corrente 
+- Quando fatto il login, rimane l'immagine avatar dell'utente precedente
