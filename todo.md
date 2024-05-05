@@ -1,6 +1,8 @@
-- TUTTI gli endpoint accessibili solo tramite token
+- TUTTI gli endpoint accessibili solo tramite token OK 
 - Error handling !!!!
---- Messaggio di errore per utente non autorizzato
+--- Messaggio di errore per utente non autorizzato OK 
+--- Errore di utente che cancella il commento non autorizzato 
+---- Mettere prima tasti per cancellare e modificare commenti 
 
 - Cambiare "username" nel login 
 -- é la stessa cosa di "Name" ? (si)

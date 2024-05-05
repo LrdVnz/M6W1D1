@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Image, Row, Col } from "react-bootstrap";
+import { Container, Image, Row, Col, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
@@ -45,14 +45,19 @@ const Blog = (props) => {
   }
 
   return (
-    <> 
-      
+    <>
       {!blog && !isError && <p> loading </p>}
 
-      {isError && <h2 style={{
-        marginTop: "200px",
-        marginLeft: "100px"
-      }}>401 unauthorized. Please log in</h2>}
+      {isError && (
+        <h2
+          style={{
+            marginTop: "200px",
+            marginLeft: "100px",
+          }}
+        >
+          401 unauthorized. Please log in
+        </h2>
+      )}
 
       {blog && (
         <div className="blog-details-root">
@@ -93,26 +98,42 @@ const Blog = (props) => {
             <h2 className="">Commenti : </h2>
             <Row className="">
               {blog.comments.map((comment, i) => (
-                <Col
-                  key={`comment-${i}`}
-                  sm={12}
+                <Row
                   style={{
                     margin: 10,
                     border: "solid 2px lightgray",
                   }}
                 >
-                  <span width="200px">
-                    <img
-                      src={`${comment.author.avatar}`}
-                      alt=""
-                      width="100px"
-                    />
-                  </span>
-                  <span width="200px">
-                    <h5>{comment.author.name && comment.author.name} </h5>
-                  </span>
-                  <p> {comment.description} </p>
-                </Col>
+                  <Col
+                    key={`comment-${i}`}
+                    sm={12}
+                    className="d-flex m-2 justify-content-between align-items-center"
+                  >
+                    <div className="d-flex justify-content-between align-items-center">
+                      <img
+                        src={`${comment.author.avatar}`}
+                        alt=""
+                        width="75px"
+                        height="75px"
+                        style={{
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+
+                      <h5 className="ms-3">
+                        {comment.author.name && comment.author.name}{" "}
+                      </h5>
+                    </div>
+                    <div>
+                      <Button className="me-3">Modify comment</Button>
+                      <Button>Delete comment</Button>
+                    </div>
+                  </Col>
+                  <Col>
+                    <p> {comment.description} </p>
+                  </Col>
+                </Row>
               ))}
             </Row>
           </Container>

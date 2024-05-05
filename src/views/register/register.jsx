@@ -53,7 +53,7 @@ export default function Login() {
         </Form.Group>
         <Form.Group controlId="input-birthdate">
           <Form.Label> Data di Nascita </Form.Label>
-          <Form.Control type="text" />
+          <Form.Control type="date" />
         </Form.Group>
         <Form.Group controlId="input-avatar">
           <Form.Label> Carica il tuo avatar : </Form.Label>
