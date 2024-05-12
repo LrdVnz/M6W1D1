@@ -5,11 +5,11 @@ const { reset } = require("nodemon");
 const { trusted } = require("mongoose");
 const { uploadCover } = require("../middleware/uploadFile.js");
 const mailer = require("../middleware/mailer.js");
-const verifyToken = require("../middleware/verifyToken.js")
+const verifyToken = require("../middleware/verifyToken.js");
 
 const blogsRoute = express.Router();
 
-blogsRoute.get("/", verifyToken,  async (req, res) => {
+blogsRoute.get("/", verifyToken, async (req, res) => {
   try {
     const blogs = await Blog.find().populate("author");
     res.send(blogs);
@@ -18,27 +18,29 @@ blogsRoute.get("/", verifyToken,  async (req, res) => {
   }
 });
 
-blogsRoute.post("/", verifyToken, /*  mailer ,*/ async (req, res) => {
-  try {
-    req.body.author = req.user.author._id
+blogsRoute.post(
+  "/",
+  verifyToken,
+  /*  mailer ,*/ async (req, res) => {
+    try {
+      req.body.author = req.user.author._id;
 
-    const result = await Blog.create(req.body);
+      const result = await Blog.create(req.body);
 
-    res.status(201).send(result)
-  } catch (err) {
-    res.send(err);
+      res.status(201).send(result);
+    } catch (err) {
+      res.send(err);
+    }
   }
-});
+);
 
-blogsRoute.get("/:id",  verifyToken, async (req, res) => {
+blogsRoute.get("/:id", verifyToken, async (req, res) => {
   try {
     const result = await Blog.findById(req.params.id)
-    .populate("author")
-    .populate("comments.author")
-    ;
+      .populate("author")
+      .populate("comments.author");
     res.send(result);
   } catch (err) {
-
     res.send(err);
   }
 });
@@ -99,23 +101,23 @@ blogsRoute.get("/:id/comments", async (req, res, next) => {
     res.send(post.comments);
   } catch (err) {
     res.send(err);
-  } 
+  }
 });
 
 blogsRoute.post("/:id/comments", verifyToken, async (req, res, next) => {
   try {
-    //viene creato req.user.author tramite il middleware 
-    // va messo nel commento come autore. 
+    //viene creato req.user.author tramite il middleware
+    // va messo nel commento come autore.
 
-    console.log("_-----------------------------------------")
-    console.log(req)
-    console.log(req.params)
+    console.log("_-----------------------------------------");
+    console.log(req);
+    console.log(req.params);
 
     let blog = await Blog.findById(req.params.id);
-    
-    req.body.comment.author = req.user.author._id
-    blog.comments = [...blog.comments, req.body.comment]  
-    
+
+    req.body.comment.author = req.user.author._id;
+    blog.comments = [...blog.comments, req.body.comment];
+
     let updatedComments = await Blog.findByIdAndUpdate(
       req.params.id,
       { comments: blog.comments },
@@ -128,13 +130,12 @@ blogsRoute.post("/:id/comments", verifyToken, async (req, res, next) => {
   }
 });
 
-
 blogsRoute.get("/:id/comments/:index", async (req, res, next) => {
   try {
-    let blog = await Blog.findById(req.params.id)
-    let comment = blog.comments[req.params.index]
-    
-    console.log(req.params.id)
+    let blog = await Blog.findById(req.params.id);
+    let comment = blog.comments[req.params.index];
+
+    console.log(req.params.id);
     res.send(comment);
   } catch (err) {
     res.send(err);
@@ -143,17 +144,19 @@ blogsRoute.get("/:id/comments/:index", async (req, res, next) => {
 
 blogsRoute.put("/:id/comments/:index", async (req, res, next) => {
   try {
-    let index = req.params.index
-    let blog = await Blog.findById(req.params.id)
-    blog.comments[index] = req.body.comment; 
+    let index = req.params.index;
+    let blog = await Blog.findById(req.params.id);
+    blog.comments[index] = req.body.comment;
 
-    let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
-    {
-        comments : blog.comments 
-    }, 
-    {
-        new: true
-    })
+    let updatedComment = await Blog.findByIdAndUpdate(
+      req.params.id,
+      {
+        comments: blog.comments,
+      },
+      {
+        new: true,
+      }
+    );
 
     res.send(updatedComment);
   } catch (err) {
@@ -163,17 +166,19 @@ blogsRoute.put("/:id/comments/:index", async (req, res, next) => {
 
 blogsRoute.delete("/:id/comments/:index", async (req, res, next) => {
   try {
-    let index = req.params.index
-    let blog = await Blog.findById(req.params.id)
-    let newComments = blog.comments.filter( (el, el_index) => el_index != index )
+    let index = req.params.index;
+    let blog = await Blog.findById(req.params.id);
+    let newComments = blog.comments.filter((el, el_index) => el_index != index);
 
-    let updatedComment = await Blog.findByIdAndUpdate(req.params.id, 
-    {
-        comments : newComments 
-    }, 
-    {
-        new: true
-    })
+    let updatedComment = await Blog.findByIdAndUpdate(
+      req.params.id,
+      {
+        comments: newComments,
+      },
+      {
+        new: true,
+      }
+    );
 
     res.send(updatedComment);
   } catch (err) {

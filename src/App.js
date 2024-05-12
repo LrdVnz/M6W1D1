@@ -6,6 +6,7 @@ import Blog from "./views/blog/Blog";
 import NewBlogPost from "./views/new/New";
 import Login from "./views/login/login";
 import Register from "./views/register/register"
+import GoogleLogin from "./components/access/googleLogin";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" exact element={<Home />} />
+        <Route path="/googleLogin/:currentAuthor/:authToken" element={<GoogleLogin/>} />
         <Route path="/blogs/:id" element={<Blog />} />
         <Route path="/new" element={<NewBlogPost />} />
         <Route path="/login" element={<Login/>} />
