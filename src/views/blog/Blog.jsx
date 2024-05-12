@@ -95,7 +95,7 @@ const Blog = (props) => {
             <AddComment></AddComment>
           </Container>
           <Container>
-            <h2 className="">Commenti : </h2>
+            <h5 className="">Commenti : </h5>
             <Row className="">
               {blog.comments.map((comment, i) => (
                 <Row
@@ -113,8 +113,8 @@ const Blog = (props) => {
                       <img
                         src={`${comment.author.avatar}`}
                         alt=""
-                        width="75px"
-                        height="75px"
+                        width="50px"
+                        height="50px"
                         style={{
                           borderRadius: "50%",
                           objectFit: "cover",

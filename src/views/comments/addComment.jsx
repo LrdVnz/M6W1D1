@@ -35,10 +35,9 @@ export default function AddComment() {
 
   return (
     <Container fluid="sm">
-      <h2>Aggiungi un commento</h2>
+      <h4>Aggiungi un commento:</h4>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="input-description">
-          <Form.Label> Comment </Form.Label>
           <Form.Control type="text" />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-center">
