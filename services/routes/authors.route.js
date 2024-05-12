@@ -7,7 +7,7 @@ const { reset } = require("nodemon");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/verifyToken.js");
-
+const passport = require("passport")
 require("dotenv").config();
 
 const authorsRoute = express.Router();
@@ -24,6 +24,26 @@ password.
 La password verrà decriptata e gestita da bcrypt. 
 */
 
+authorsRoute.get(
+  "/googleLogin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// NON VA CHIAMATA DA FRONTEND MA VIENE AUTOMATICAMENTE PRESA COME CALLBACK REQUEST DA /googleLogin
+authorsRoute.get(
+  "/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res, next) => {
+    try {
+      res.redirect(
+        `http://localhost:3000/authors/profile?accessToken=${req.user.accToken}`
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+)
+
 authorsRoute.get("/", verifyToken, async (req, res) => {
   try {
     const data = await Author.find();
@@ -39,6 +59,16 @@ authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
   }).populate("author");
 
   res.send(posts);
+});
+
+authorsRoute.get("/profile", verifyToken, async (req, res) => {
+  try {
+    const result = await Author.findById(req.user.id);
+
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 authorsRoute.get("/:id", verifyToken, async (req, res) => {
@@ -130,6 +160,8 @@ authorsRoute.patch("/:id/avatar", verifyToken,  uploadAvatar, async (req, res, n
     res.send(err);
   }
 });
+
+
 
 function showAuthors(data) {
   let authors = data.map((article) => {

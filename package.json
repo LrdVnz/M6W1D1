@@ -20,6 +20,8 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
@@ -31,7 +33,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "deploy": "react-scripts start",  
+    "deploy": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

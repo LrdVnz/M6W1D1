@@ -14,7 +14,12 @@ const authorSchema = new Schema(
 
     password: {
       type: String, 
-      required: true, 
+      required: false, 
+    },
+
+    googleId: {
+      type: String, 
+      required: false,   
     },
 
     email: {
@@ -24,7 +29,7 @@ const authorSchema = new Schema(
 
     birthDate: {
       type: String,
-      required: true,
+      required: false,
     },
 
     avatar: {

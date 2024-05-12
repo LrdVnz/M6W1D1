@@ -7,12 +7,16 @@ const blogsRoute = require('./services/routes/blogs.route')
 const data = require("./src/data/posts.json");
 const cors = require("cors")
 const sendEmail = require('./services/middleware/mailer')
-
+const passport = require("passport")
+const googleStrategy = require("./services/middleware/passport");
 const app = express(); 
 const port = 3000; 
 
 app.use(cors())
 app.use(express.json());
+
+// Utilizziamo la google strategy
+passport.use("google", googleStrategy);
 
 app.get('/', (req, res) => {
     res.send(data)
