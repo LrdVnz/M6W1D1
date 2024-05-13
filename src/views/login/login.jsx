@@ -9,7 +9,7 @@ export default function Login() {
   
    // event.preventDefault()
 
-    const str = `http://localhost:3000/authors/googleLogin`;
+    const str = `${process.env.REACT_APP_BACKEND_URL}/authors/googleLogin`;
     window.open(str, "_self");
   };
 
@@ -22,7 +22,7 @@ export default function Login() {
     });
 
     try {
-      const res = await fetch("http://localhost:3000/authors/login", {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}authors/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

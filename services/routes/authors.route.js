@@ -36,7 +36,7 @@ authorsRoute.get(
   (req, res, next) => {
     try {
       res.redirect(
-        `http://localhost:3000/authors/profile?accessToken=${req.user.accToken}`
+        `${process.env.REACT_APP_BACKEND_URL}/authors/profile?accessToken=${req.user.accToken}`
       );
     } catch (error) {
       next(error);

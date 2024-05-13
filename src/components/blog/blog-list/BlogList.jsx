@@ -14,7 +14,7 @@ const BlogList = (props) => {
 
   async function getPosts() {
     try {
-      const res = await fetch("http://localhost:3000/blogs", {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs`, {
         headers: {
           Authorization: `Bearer ${authorToken}`,
         },

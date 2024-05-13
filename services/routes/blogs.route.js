@@ -18,21 +18,17 @@ blogsRoute.get("/", verifyToken, async (req, res) => {
   }
 });
 
-blogsRoute.post(
-  "/",
-  verifyToken,
-  /*  mailer ,*/ async (req, res) => {
-    try {
-      req.body.author = req.user.author._id;
+blogsRoute.post("/", verifyToken, mailer, async (req, res) => {
+  try {
+    req.body.author = req.user.author._id;
 
-      const result = await Blog.create(req.body);
+    const result = await Blog.create(req.body);
 
-      res.status(201).send(result);
-    } catch (err) {
-      res.send(err);
-    }
+    res.status(201).send(result);
+  } catch (err) {
+    res.send(err);
   }
-);
+});
 
 blogsRoute.get("/:id", verifyToken, async (req, res) => {
   try {
@@ -108,10 +104,6 @@ blogsRoute.post("/:id/comments", verifyToken, async (req, res, next) => {
   try {
     //viene creato req.user.author tramite il middleware
     // va messo nel commento come autore.
-
-    console.log("_-----------------------------------------");
-    console.log(req);
-    console.log(req.params);
 
     let blog = await Blog.findById(req.params.id);
 
