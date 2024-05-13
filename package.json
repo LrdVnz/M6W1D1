@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "strive-blog-template",
   "version": "0.1.0",
   "private": true,

@@ -14,6 +14,7 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
+        <Route basename="/" />
         <Route path="/" exact element={<Home />} />
         <Route path="/googleLogin/:currentAuthor/:authToken" element={<GoogleLogin/>} />
         <Route path="/blogs/:id" element={<Blog />} />
