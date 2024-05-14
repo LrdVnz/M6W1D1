@@ -65,7 +65,9 @@ export default function Login() {
           </Button>
         </Form.Group>
       </Form>
-      <button onClick={handleGoogleAuth}>Accedi con Google</button>
+      <Form.Group>
+        <Button onClick={handleGoogleAuth}>Accedi con Google</Button>
+        </Form.Group>
     </Container>
   );
 }

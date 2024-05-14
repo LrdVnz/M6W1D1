@@ -6,6 +6,8 @@ const GoogleLogin = () => {
   const navigate = useNavigate()
   
   useEffect(() =>{
+    console.log(currentAuthor)
+    console.log(authToken)
 
   localStorage.setItem("accessToken", authToken);
   localStorage.setItem("currentAuthor", currentAuthor);

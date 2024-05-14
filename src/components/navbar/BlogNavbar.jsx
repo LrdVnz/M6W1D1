@@ -3,9 +3,22 @@ import { Button, Container, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./styles.css";
+import { useEffect, useState } from "react";
+
 const NavBar = (props) => {
-  let currentAuthor = localStorage.getItem("currentAuthor");
-  currentAuthor = JSON.parse(currentAuthor);
+  const [currentAuthor, setCurrentAuthor] = useState()
+  
+  useEffect(() => {
+    setCurrentAuthor(JSON.parse(localStorage.getItem("currentAuthor")));
+    //currentAuthor = JSON.parse(currentAuthor);
+    console.log(currentAuthor);
+  },[])
+
+  function handleLogout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("currentAuthor");
+    window.location.reload()
+  }
 
   return (
     <Navbar expand="lg" className="blog-navbar" fixed="top">
@@ -32,31 +45,33 @@ const NavBar = (props) => {
           </svg>
           Nuovo Articolo
         </Button>
-        <Button
-          as={Link}
-          to="/login"
-          className="bg-dark"
-          size="lg"
-        >Login </Button>
-         <Button
-          as={Link}
-          to="/register"
-          className="bg-dark"
-          size="lg"
-        >Register </Button>
-        
+        <Button as={Link} to="/login" className="bg-dark" size="lg">
+          Login{" "}
+        </Button>
+        <Button as={Link} to="/register" className="bg-dark" size="lg">
+          Register{" "}
+        </Button>
+        <Button onClick={() => handleLogout()} className="bg-dark" size="lg">
+          Logout{" "}
+        </Button>
+
         <Navbar.Brand className="d-flex">
           {/* <p className="fs-5">You are logged in as</p> */}
-         { currentAuthor &&
-         <> <p className ="fs-5 ms-2 me-2">{currentAuthor.name}</p> 
-          <img src={currentAuthor.avatar} alt="" width="50px"          
-          
-          style={{
-            border:"solid 1px",
-            borderRadius: "50%"
-          }}/>
-          </>
-        }
+          {currentAuthor && (
+            <>
+              {" "}
+              <p className="fs-5 ms-2 me-2">{currentAuthor.name}</p>
+              <img
+                src={currentAuthor.avatar}
+                alt=""
+                width="50px"
+                style={{
+                  border: "solid 1px",
+                  borderRadius: "50%",
+                }}
+              />
+            </>
+          )}
         </Navbar.Brand>
       </Container>
     </Navbar>

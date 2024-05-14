@@ -61,10 +61,19 @@ authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
   res.send(posts);
 });
 
-authorsRoute.get("/profile", verifyToken, async (req, res) => {
+authorsRoute.get("/profile",verifyToken, async (req, res) => {
   try {
+    console.log("req.user nella route profile è ")
+    console.log(req.user)
+    console.log("--------------------")
     let currentAuthor = await Author.findById(req.user.author._id);
+    console.log("current author prima dello stringify:")
+    console.log(currentAuthor)
+    console.log("--------------------")
+    console.log("current author dopo dello stringify:")
     currentAuthor = JSON.stringify(currentAuthor)
+    console.log(currentAuthor)
+    console.log("--------------------")
     let authToken = req.query.accessToken; 
     console.log(authToken)
     res.redirect(`http://localhost:3001/googleLogin/${currentAuthor}/${authToken}`);

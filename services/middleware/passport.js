@@ -7,9 +7,12 @@ function createToken(author, id) {
     const authorPayload = {
       author: author,
     };
-  
+
+    console.log("il payload passato nel jwt sign : ")
+    console.log(authorPayload)
     const accessToken = jwt.sign(authorPayload, process.env.ACCESS_TOKEN_SECRET);
-  
+    console.log("-------------------------------------")
+
     return accessToken;
   }  
 
@@ -22,7 +25,6 @@ const options = {
   // Callback da eseguire quando un'utente effettua l'autenticazione all'endpoint
   callbackURL: process.env.REACT_APP_BACKEND_URL + process.env.CB,
 };
-console.log(options)
 // Crea un'istanza di Google Strategy
 const googleStrategy = new GoogleStrategy(
   options,
@@ -56,12 +58,17 @@ const googleStrategy = new GoogleStrategy(
           googleId: sub,
         });
 
+        console.log("il nuovo autore che viene creato : ")
+        console.log(newAuthor)
+        console.log("--------------------------------- ")
+
         // Salva l'utente nel database
         await newAuthor.save();
 
         // Genera token
         const accToken = await createToken({
-          username: newAuthor.username,
+          name: newAuthor.name,
+          _id: newAuthor._id
         });
 
         // Chiamiamo la callback, passando null come errore e accToken come secondo parametro
