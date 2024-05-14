@@ -14,9 +14,9 @@ const Blog = (props) => {
   const navigate = useNavigate();
 
   const authorToken = localStorage.getItem("accessToken");
+  const { id } = params;
 
   useEffect(() => {
-    const { id } = params;
     console.log(id);
 
     getPosts(id);
@@ -42,6 +42,21 @@ const Blog = (props) => {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  function handleDelete(index) {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/${id}/comments/${index}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorToken,
+      },
+    }).then(() => {
+      alert("comment deleted")
+      // aggiungere reload pagina
+    }).catch((e) => {
+      alert(e)
+    });
   }
 
   return (
@@ -126,8 +141,30 @@ const Blog = (props) => {
                       </h5>
                     </div>
                     <div>
-                      <Button className="me-3">Modify comment</Button>
-                      <Button>Delete comment</Button>
+                    <Button
+                  variant="danger"
+                  className="m-2"
+                  onClick={() => handleDelete(i)}
+                >
+                  Delete comment
+                </Button>
+                {/* Implementiamo prima solo delete poi modify
+                <Button
+                  variant="warning"
+                  className="m-2"
+                  onClick={() => handleShowModify(index)}
+                >
+                  Modify comment
+                </Button>
+                {(showModify && currentComment === index) && (
+                  <ModifyComment
+                    existing_comment={comment.comment}
+                    id={comment._id}
+                    selected={selected}
+                    handleShowModify={handleShowModify}
+                    reloadFather={reloadComments}
+                  ></ModifyComment>
+                )} */ }
                     </div>
                   </Col>
                   <Col>

@@ -1,5 +1,4 @@
 {
-  "homepage": ".",
   "name": "strive-blog-template",
   "version": "0.1.0",
   "private": true,
@@ -34,7 +33,7 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "deploy": "react-scripts start",
+    "deploy": "PORT=3001 react-scripts start",
     "predeploy": "npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",

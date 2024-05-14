@@ -35,13 +35,16 @@ const NavBar = (props) => {
         </Button>
         <Navbar.Brand className="d-flex">
           {/* <p className="fs-5">You are logged in as</p> */}
-          <p className ="fs-5 ms-2 me-2">{currentAuthor.name}</p>
+         { currentAuthor &&
+         <> <p className ="fs-5 ms-2 me-2">{currentAuthor.name}</p> 
           <img src={currentAuthor.avatar} alt="" width="50px"          
           
           style={{
             border:"solid 1px",
             borderRadius: "50%"
           }}/>
+          </>
+        }
         </Navbar.Brand>
       </Container>
     </Navbar>
