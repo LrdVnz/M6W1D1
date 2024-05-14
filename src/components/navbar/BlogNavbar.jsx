@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 
 const NavBar = (props) => {
   const [currentAuthor, setCurrentAuthor] = useState();
+  //const [reloadingPage, setReloadingPage] = useContext()
 
   useEffect(() => {
     setCurrentAuthor(JSON.parse(localStorage.getItem("currentAuthor")));
+ /*    if(reloadingPage === false && currentAuthor !== null ){
+      setReloadingPage(true);
+      window.location.reload()
+    }  */
   }, []);
+
+  
 
   function handleLogout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentAuthor");
+    //setReloadingPage(false)
     window.location.reload();
   }
 

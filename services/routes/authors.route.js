@@ -44,6 +44,22 @@ authorsRoute.get(
   }
 );
 
+authorsRoute.get("/profile", verifyToken, async (req, res) => {
+  try {
+    let currentAuthor = await Author.findById(req.user.author._id);
+
+    currentAuthor = JSON.stringify(currentAuthor);
+
+    let authToken = req.query.accessToken;
+
+    res.redirect(
+      `${process.env.REACT_APP_FRONTEND_URL}/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`
+    );
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 authorsRoute.get("/", verifyToken, async (req, res) => {
   try {
     const data = await Author.find();
@@ -61,21 +77,6 @@ authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
   res.send(posts);
 });
 
-authorsRoute.get("/profile", verifyToken, async (req, res) => {
-  try {
-    let currentAuthor = await Author.findById(req.user.author._id);
-
-    currentAuthor = JSON.stringify(currentAuthor);
-
-    let authToken = req.query.accessToken;
-
-    res.redirect(
-      `${process.env.REACT_APP_FRONTEND_URL}/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`
-    );
-  } catch (err) {
-    res.send(err);
-  }
-});
 
 authorsRoute.get("/:id", verifyToken, async (req, res) => {
   try {
