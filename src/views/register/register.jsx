@@ -19,7 +19,7 @@ export default function Login() {
     formData.append('avatar', event.target.elements["input-avatar"].files[0]);
   
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}authors/register`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/authors/register`, {
         method: "POST",
         body: formData, 
       });

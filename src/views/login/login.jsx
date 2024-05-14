@@ -22,7 +22,7 @@ export default function Login() {
     });
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}authors/login`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/authors/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

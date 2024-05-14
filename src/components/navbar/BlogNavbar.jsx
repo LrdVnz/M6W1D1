@@ -33,6 +33,19 @@ const NavBar = (props) => {
           </svg>
           Nuovo Articolo
         </Button>
+        <Button
+          as={Link}
+          to="/login"
+          className="bg-dark"
+          size="lg"
+        >Login </Button>
+         <Button
+          as={Link}
+          to="/register"
+          className="bg-dark"
+          size="lg"
+        >Register </Button>
+        
         <Navbar.Brand className="d-flex">
           {/* <p className="fs-5">You are logged in as</p> */}
          { currentAuthor &&
