@@ -18,10 +18,9 @@ const Blog = (props) => {
   const { id } = params;
 
   const decodedToken = jwtDecode(authorToken);
-  console.log("decoded !!!!!!!!!!!!!")
   console.log(decodedToken)
+
   useEffect(() => {
-    console.log(id);
 
     getPosts(id);
   }, []);
@@ -59,7 +58,7 @@ const Blog = (props) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authorToken,
+          Authorization: `Bearer ${authorToken}`,
         },
       }
     )
@@ -127,6 +126,7 @@ const Blog = (props) => {
             <Row className="">
               {blog.comments.map((comment, i) => (
                 <Row
+                key={`comment-${i}`}
                   style={{
                     margin: 10,
                     border: "solid 2px lightgray",

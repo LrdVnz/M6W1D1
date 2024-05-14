@@ -10,7 +10,7 @@ const sendEmail = require('./services/middleware/mailer')
 const passport = require("passport")
 const googleStrategy = require("./services/middleware/passport");
 const app = express(); 
-const port = 3000; 
+const PORT = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json());
@@ -33,8 +33,8 @@ async function initServer() {
       
       // sendEmail(); 
 
-      app.listen(port, () => {
-        console.log(`listening on port ${port}`)
+      app.listen(PORT, () => {
+        console.log(`listening on port ${PORT}`)
       })
 
     } catch(err) {

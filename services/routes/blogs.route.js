@@ -156,7 +156,7 @@ blogsRoute.put("/:id/comments/:index", async (req, res, next) => {
   }
 });
 
-blogsRoute.delete("/:id/comments/:index", verifyToken, async (req, res, next) => {
+blogsRoute.delete("/:id/comments/:index", verifyToken , async (req, res, next) => {
   try {
     let index = req.params.index;
     let blog = await Blog.findById(req.params.id);

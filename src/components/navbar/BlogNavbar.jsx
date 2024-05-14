@@ -6,7 +6,6 @@ import "./styles.css";
 const NavBar = (props) => {
   let currentAuthor = localStorage.getItem("currentAuthor");
   currentAuthor = JSON.parse(currentAuthor);
-  console.log(currentAuthor);
 
   return (
     <Navbar expand="lg" className="blog-navbar" fixed="top">

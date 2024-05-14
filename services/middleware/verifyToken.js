@@ -10,7 +10,7 @@ async function verifyToken(req, res, next) {
     req.user = { accToken: accessToken };
      
     if (accessToken == null) {
-        res.send("please provide a valid access token");
+      res.sendStatus(401)
     } else {
         authToken = accessToken
     }
