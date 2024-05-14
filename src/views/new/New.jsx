@@ -32,7 +32,7 @@ const NewBlogPost = (props) => {
     };
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}blogs/`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,6 +42,7 @@ const NewBlogPost = (props) => {
       });
 
       console.log(res)
+      window.location.reload()
     } catch (err) {
       console.log(err)
     }
