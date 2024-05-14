@@ -76,7 +76,7 @@ authorsRoute.get("/profile",verifyToken, async (req, res) => {
     console.log("--------------------")
     let authToken = req.query.accessToken; 
     console.log(authToken)
-    res.redirect(`http://localhost:3001/googleLogin/${currentAuthor}/${authToken}`);
+    res.redirect(`http://localhost:3001/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`);
   } catch (err) {
     res.send(err);
   }

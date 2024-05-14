@@ -41,7 +41,7 @@ const googleStrategy = new GoogleStrategy(
         // L'utente esiste già nel DB
 
         // Creiamo il token di accesso, utilizzando il servizio di GoogleStrategy
-        const accToken = await createToken({
+        const accToken = createToken({
           _id: author._id,
         });
 
@@ -66,9 +66,9 @@ const googleStrategy = new GoogleStrategy(
         await newAuthor.save();
 
         // Genera token
-        const accToken = await createToken({
+        const accToken = createToken({
           name: newAuthor.name,
-          _id: newAuthor._id
+          _id: newAuthor._id 
         });
 
         // Chiamiamo la callback, passando null come errore e accToken come secondo parametro
