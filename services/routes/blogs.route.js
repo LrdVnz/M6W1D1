@@ -21,6 +21,7 @@ blogsRoute.get("/", verifyToken, async (req, res) => {
 blogsRoute.post("/", verifyToken, mailer, async (req, res) => {
   try {
     req.body.author = req.user.author._id;
+    req.body.cover = req.file.path;
 
     const result = await Blog.create(req.body);
 

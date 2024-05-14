@@ -17,36 +17,29 @@ const NewBlogPost = (props) => {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const newPost = {
-      title: event.target.elements["blog-form"].value,
-      content: text,
-      category: event.target.elements["blog-category"].value,
-      // dati di readtime cover e author dummy. Da creare i vari input per inserirli
-      cover:
-        "https://res.cloudinary.com/dogunqggs/image/upload/v1713626376/covers/wrb75jpweym7fuwxl8li.jpg",
-      readTime: {
-        value: 10,
-        unit: "mins",
-      },
-      author: '661bd43fc1e727255a0f6a68'
-    };
+    const formData = new FormData();
+    formData.append("title", event.target.elements["blog-form"].value);
+    formData.append("content", text);
+    formData.append("category", event.target.elements["blog-category"].value);
+    formData.append("cover", event.target.elements["blog-cover"].files[0]);
+    formData.append("readTime[value]", 10);
+    formData.append("readTime[unit]", "mins");
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authorToken}`
-        },
-        body: JSON.stringify(newPost),
-      });
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${authorToken}`
+            },
+            body: formData,
+        });
 
-      console.log(res)
-      window.location.reload()
+        console.log(res)
+        window.location.reload()
     } catch (err) {
-      console.log(err)
+        console.log(err)
     }
-  }
+}
 
   return (
     <Container className="new-blog-container">
@@ -73,6 +66,10 @@ const NewBlogPost = (props) => {
             onChange={handleChange}
             className="new-blog-content"
           />
+        </Form.Group>
+        <Form.Group controlId="blog-cover">
+          <Form.Label> Carica la cover dell'articolo: </Form.Label>
+          <Form.Control type="file" />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-end">
           <Button type="reset" size="lg" variant="outline-dark">

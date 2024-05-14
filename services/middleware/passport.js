@@ -20,9 +20,9 @@ const options = {
   // Client Secret preso dalla console di Google alla registrazione dell'applicazione
   clientSecret: process.env.CLIENT_SECRET,
   // Callback da eseguire quando un'utente effettua l'autenticazione all'endpoint
-  callbackURL: process.env.CB,
+  callbackURL: process.env.REACT_APP_BACKEND_URL + process.env.CB,
 };
-
+console.log(options)
 // Crea un'istanza di Google Strategy
 const googleStrategy = new GoogleStrategy(
   options,
