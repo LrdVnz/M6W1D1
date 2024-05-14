@@ -7,7 +7,7 @@ const { reset } = require("nodemon");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middleware/verifyToken.js");
-const passport = require("passport")
+const passport = require("passport");
 require("dotenv").config();
 
 const authorsRoute = express.Router();
@@ -42,7 +42,7 @@ authorsRoute.get(
       next(error);
     }
   }
-)
+);
 
 authorsRoute.get("/", verifyToken, async (req, res) => {
   try {
@@ -61,22 +61,17 @@ authorsRoute.get("/posts", verifyToken, async (req, res, next) => {
   res.send(posts);
 });
 
-authorsRoute.get("/profile",verifyToken, async (req, res) => {
+authorsRoute.get("/profile", verifyToken, async (req, res) => {
   try {
-    console.log("req.user nella route profile è ")
-    console.log(req.user)
-    console.log("--------------------")
     let currentAuthor = await Author.findById(req.user.author._id);
-    console.log("current author prima dello stringify:")
-    console.log(currentAuthor)
-    console.log("--------------------")
-    console.log("current author dopo dello stringify:")
-    currentAuthor = JSON.stringify(currentAuthor)
-    console.log(currentAuthor)
-    console.log("--------------------")
-    let authToken = req.query.accessToken; 
-    console.log(authToken)
-    res.redirect(`http://localhost:3001/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`);
+
+    currentAuthor = JSON.stringify(currentAuthor);
+
+    let authToken = req.query.accessToken;
+
+    res.redirect(
+      `${process.env.REACT_APP_BACKEND_URL}/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`
+    );
   } catch (err) {
     res.send(err);
   }
@@ -146,7 +141,7 @@ authorsRoute.put("/:id", verifyToken, async (req, res) => {
   }
 });
 
-authorsRoute.delete("/:id", verifyToken,  async (req, res) => {
+authorsRoute.delete("/:id", verifyToken, async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -158,21 +153,24 @@ authorsRoute.delete("/:id", verifyToken,  async (req, res) => {
   }
 });
 
-authorsRoute.patch("/:id/avatar", verifyToken,  uploadAvatar, async (req, res, next) => {
-  try {
-    let updatedAuthor = await Author.findByIdAndUpdate(
-      req.params.id,
-      { avatar: req.file.path },
-      { new: true }
-    );
+authorsRoute.patch(
+  "/:id/avatar",
+  verifyToken,
+  uploadAvatar,
+  async (req, res, next) => {
+    try {
+      let updatedAuthor = await Author.findByIdAndUpdate(
+        req.params.id,
+        { avatar: req.file.path },
+        { new: true }
+      );
 
-    res.send(updatedAuthor);
-  } catch (err) {
-    res.send(err);
+      res.send(updatedAuthor);
+    } catch (err) {
+      res.send(err);
+    }
   }
-});
-
-
+);
 
 function showAuthors(data) {
   let authors = data.map((article) => {
