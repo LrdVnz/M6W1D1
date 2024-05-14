@@ -70,7 +70,7 @@ authorsRoute.get("/profile", verifyToken, async (req, res) => {
     let authToken = req.query.accessToken;
 
     res.redirect(
-      `${process.env.REACT_APP_BACKEND_URL}/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`
+      `${process.env.REACT_APP_FRONTEND_URL}/googleLogin?currentAuthor=${currentAuthor}&authToken=${authToken}`
     );
   } catch (err) {
     res.send(err);
