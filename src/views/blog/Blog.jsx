@@ -5,6 +5,7 @@ import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
 import AddComment from "../comments/addComment";
 import "./styles.css";
+import { jwtDecode } from "jwt-decode";
 
 const Blog = (props) => {
   const [blog, setBlog] = useState();
@@ -16,6 +17,9 @@ const Blog = (props) => {
   const authorToken = localStorage.getItem("accessToken");
   const { id } = params;
 
+  const decodedToken = jwtDecode(authorToken);
+  console.log("decoded !!!!!!!!!!!!!")
+  console.log(decodedToken)
   useEffect(() => {
     console.log(id);
 
@@ -24,11 +28,14 @@ const Blog = (props) => {
 
   async function getPosts(id) {
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/` + id, {
-        headers: {
-          Authorization: `Bearer ${authorToken}`,
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/blogs/` + id,
+        {
+          headers: {
+            Authorization: `Bearer ${authorToken}`,
+          },
+        }
+      );
 
       if (res.status == 401) {
         setIsError(true);
@@ -36,6 +43,7 @@ const Blog = (props) => {
 
       const json = await res.json();
 
+      console.log(json);
       if (json) {
         setBlog(json);
       }
@@ -45,18 +53,23 @@ const Blog = (props) => {
   }
 
   function handleDelete(index) {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/blogs/${id}/comments/${index}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authorToken,
-      },
-    }).then(() => {
-      alert("comment deleted")
-      window.location.reload();
-    }).catch((e) => {
-      alert(e)
-    });
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/blogs/${id}/comments/${index}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorToken,
+        },
+      }
+    )
+      .then(() => {
+        alert("comment deleted");
+        window.location.reload();
+      })
+      .catch((e) => {
+        alert(e);
+      });
   }
 
   return (
@@ -141,14 +154,16 @@ const Blog = (props) => {
                       </h5>
                     </div>
                     <div>
-                    <Button
-                  variant="danger"
-                  className="m-2"
-                  onClick={() => handleDelete(i)}
-                >
-                  Delete comment
-                </Button>
-                {/* Implementiamo prima solo delete poi modify
+                      { decodedToken.author._id == comment.author._id && 
+                        <Button
+                          variant="danger"
+                          className="m-2"
+                          onClick={() => handleDelete(i)}
+                        >
+                          Delete comment
+                        </Button>
+                      }
+                      {/* Implementiamo prima solo delete poi modify
                 <Button
                   variant="warning"
                   className="m-2"
@@ -164,7 +179,7 @@ const Blog = (props) => {
                     handleShowModify={handleShowModify}
                     reloadFather={reloadComments}
                   ></ModifyComment>
-                )} */ }
+                )} */}
                     </div>
                   </Col>
                   <Col>
