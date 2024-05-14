@@ -53,7 +53,7 @@ const Blog = (props) => {
       },
     }).then(() => {
       alert("comment deleted")
-      // aggiungere reload pagina
+      window.location.reload();
     }).catch((e) => {
       alert(e)
     });
